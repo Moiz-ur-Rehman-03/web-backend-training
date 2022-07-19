@@ -34,7 +34,7 @@ const httpRequestUsingPromiseAll = async (URLs) => {
   URLs.forEach((URL) => {
     promises.push(getResponse(URL, resultArray));
   });
-
+  
   //waiting for all promises to get settled
   await Promise.allSettled(promises);
 
@@ -42,24 +42,7 @@ const httpRequestUsingPromiseAll = async (URLs) => {
   return resultArray;
 };
 
-//testing
-const main = async () => {
-  const array = [
-    "https://jsonplaceholder.typicode.com/todos/1",
-    "https://jsonplaceholder.typicode.com/todos/2",
-  ];
-  try {
-    //waiting for result array
-    const result = await httpRequestUsingPromiseAll(array);
-
-    //printing result
-    console.log("Parallel Execution Response: ", result);
-  } catch (error) {
-    console.log("Something Is Wrong");
-  }
-};
-
-//exporting main function for performace test in performance_problem_5.js
+//exporting function for performace test in performance_problem_5.js
 module.exports = {
-  main,
+  httpRequestUsingPromiseAll,
 };

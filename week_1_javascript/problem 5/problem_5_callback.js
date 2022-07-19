@@ -20,7 +20,7 @@ const getResponse = async (URL) => {
 /* 
 this function return response of URLs, passed to it as parameter. Using callback method
 */
-const httpRequestUsingCallback = async (URLs, callback) => {
+const httpRequestUsingCallback = async (URLs, callback = getResponse) => {
   let resultArray = {};
   count = 0; //count to check if all URLs are incorrect
 
@@ -49,26 +49,7 @@ const httpRequestUsingCallback = async (URLs, callback) => {
   return "All URLs are not correct";
 };
 
-//testing
-
-//callback is deafult so we can use this function in perfomance_problem_5.js
-const main = async (callback = httpRequestUsingCallback) => {
-  const array = [
-    "https://jsonplaceholder.typicode.com/todos/1",
-    "https://jsonplaceholder.typicode.com/todos/2",
-  ];
-  try {
-    //getting response of all URLs present in array using CallBack method
-    const result = await callback(array, getResponse);
-
-    //printing result
-    console.log("Callback Response: ", result);
-  } catch (error) {
-    console.log("Something Is Wrong");
-  }
-};
-
-//exporting main function for performace test in performance_problem_5.js
+//exporting function for performace test in performance_problem_5.js
 module.exports = {
-  main,
+  httpRequestUsingCallback,
 };

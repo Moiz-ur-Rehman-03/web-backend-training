@@ -5,6 +5,10 @@ If it's not first time then program simply check from localstorage and return th
 passed URL
 */
 
+const { default: axios } = require("axios");
+
+const urlHistory = {}; // store data for runtime process
+
 const memoization = (URL) => {
   //returning promise because execution can take time
   return new Promise(function (resolve, reject) {
@@ -13,26 +17,26 @@ const memoization = (URL) => {
     if (data) {
       //if data is present in localstorage then simply return it.
       return data;
-    } else {
-      //if not, then get data from URL using axios
-      axios
-        .get(URL)
-        .then((response) => {
-          // if axios got a response then store it in localstorage and return it using resolve
-          localStorage.setItem(URL, response.data);
-          resolve(response.data);
-        })
-        .catch((err) => {
-          // if there is some problem then return it using reject
-          console.log("error: " + err);
-          reject(err);
-        });
     }
+    //if not, then get data from URL using axios
+    axios
+      .get(URL)
+      .then((response) => {
+        // if axios got a response then store it in localstorage and return it using resolve
+        localStorage.setItem(URL, response.data);
+        urlHistory[URL] = response.data; //storing data for runtime processing
+        resolve(response.data);
+      })
+      .catch((err) => {
+        // if there is some problem then return it using reject
+        console.log("error: " + err);
+        reject(err);
+      });
   });
 };
 
 //testing
-memoization("https://jsonplaceholder.typicode.com/todos").then((data) => {
+memoization("https://jsonplaceholder.typicode.com/todos/1").then((data) => {
   console.log(data);
 });
 

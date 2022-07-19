@@ -1,4 +1,5 @@
 const { default: axios } = require("axios");
+const urlArray = require("./data").data();
 
 /* 
 this function get the response from URL using axios and return usinf promise
@@ -34,19 +35,19 @@ const httpRequestUsingPromises = (URLs) => {
 
   return new Promise(function (resolve, reject) {
     /// iterating URLs array
-    for (let i = 0; i < URLs.length; i++) {
+    URLs.forEach((url) => {
       //waiting for response of getResponse function which will return response of URL
-      getResponse(URLs[i])
+      getResponse(url)
         .then((data) => {
           //storing result in resultArray
-          resultArray[URLs[i]] = data;
+          resultArray[url] = data;
         })
         .catch((err) => {
           count++;
           //if there is some error then store error message with related URL
           resultArray[URLs[i]] = err;
         });
-    }
+    });
 
     //setTimeout is using so all the promises can be done before it
     setTimeout(function () {
@@ -64,24 +65,7 @@ const httpRequestUsingPromises = (URLs) => {
   });
 };
 
-//testing
-const main = async () => {
-  const array = [
-    "https://jsonplaceholder.typicode.com/todos/1",
-    "https://jsonplaceholder.typicode.com/todos/2",
-  ];
-  try {
-    //getting response of all URLs present in array
-    const result = await httpRequestUsingPromises(array);
-
-    //printing result
-    console.log("Promises Response: ", result);
-  } catch (error) {
-    console.log("Something Is Wrong");
-  }
-};
-
-//exporting main function for performace test in performance_problem_5.js
+//exporting function for performace test in performance_problem_5.js
 module.exports = {
-  main,
+  httpRequestUsingPromises,
 };

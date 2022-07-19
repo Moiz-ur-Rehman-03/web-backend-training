@@ -20,6 +20,9 @@ const add = (total) => {
   return "Invalid Input";
 };
 
+// I also search about toString code which Gibran bhai told us, also found it but was not working as
+// the prototype given in training document
+
 ///  Testing
 console.log(add()); //invalid input
 console.log("Sum of 2,2,3 : ", add(1)(2)(3)()); // 6
